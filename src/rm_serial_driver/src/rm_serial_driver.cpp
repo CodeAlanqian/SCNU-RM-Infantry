@@ -110,21 +110,6 @@ void RMSerialDriver::receiveData()
         bool crc_ok =
           crc16::Verify_CRC16_Check_Sum(reinterpret_cast<const uint8_t *>(&packet), sizeof(packet));
         if (crc_ok) {
-
-          // RCLCPP_INFO(get_logger(), "CRC OK!");
-
-          // LOG [Receive] aim_xyz
-          // RCLCPP_INFO(get_logger(), "[Receive] aim_pitch %f!", packet.aim_x);
-          // RCLCPP_INFO(get_logger(), "[Receive] aim_yaw %f!", packet.aim_y);
-          // RCLCPP_INFO(get_logger(), "[Receive] aim_roll %f!", packet.aim_z);
-          
-          // LOG [Receive] [Receive] rpy
-          // RCLCPP_INFO(get_logger(), "[Receive] roll %f!", packet.roll);
-          // RCLCPP_INFO(get_logger(), "[Receive] pitch %f!", packet.pitch);
-          // RCLCPP_INFO(get_logger(), "[Receive] yaw %f!", packet.yaw);
-
-          // RCLCPP_INFO(get_logger(), "----------------------------");
-
           if (!initial_set_param_ || packet.detect_color != previous_receive_color_) {
             setParam(rclcpp::Parameter("detect_color", packet.detect_color));
             previous_receive_color_ = packet.detect_color;
@@ -192,9 +177,6 @@ void RMSerialDriver::sendData(const auto_aim_interfaces::msg::Target::SharedPtr 
     std::vector<uint8_t> data = toVector(packet);
 
     serial_driver_->port()->send(data);
-
-    // LOG [Send] packet.tracking
-    // RCLCPP_INFO(get_logger(), "[Send] packet.tracking %d!", packet.tracking);
 
     std_msgs::msg::Float64 latency;
     latency.data = (this->now() - msg->header.stamp).seconds() * 1000.0;
