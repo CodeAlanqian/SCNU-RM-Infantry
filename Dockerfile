@@ -7,8 +7,11 @@ WORKDIR /
 RUN git clone https://github.com/CodeAlanqian/SCNU-RM-Infantry.git
 WORKDIR /SCNU-RM-Infantry
 
-# install dependencies and some tools
-RUN apt-get update && rosdep install --from-paths src --ignore-src -r -y
+# RUN cd /SCNU-RM-Infantry
+
+# install dependencies anSd some tools
+RUN apt-get update
+RUN rosdep install --from-paths src --ignore-src -r -y
 RUN apt-get install ros-humble-foxglove-bridge wget htop vim -y && \
     rm -rf /var/lib/apt/lists/*
 
@@ -34,3 +37,5 @@ eval "$(register-python-argcomplete3 colcon)"\n'\
 RUN sed --in-place --expression \
       '$isource "/SCNU-RM-Infantry/install/setup.bash"' \
       /ros_entrypoint.sh
+
+WORKDIR /
