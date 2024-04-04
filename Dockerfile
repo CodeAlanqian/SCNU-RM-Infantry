@@ -24,7 +24,7 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
     rm -rf /var/lib/apt/lists/*
 
 # build
-RUN . /opt/ros/humble/setup.sh && colcon build --symlink-install
+RUN . /opt/ros/humble/setup.sh && colcon build --symlink-install --parallel-workers 1
 
 # setup .zshrc
 RUN echo 'export TERM=xterm-256color\n\
@@ -37,5 +37,3 @@ eval "$(register-python-argcomplete3 colcon)"\n'\
 RUN sed --in-place --expression \
       '$isource "/SCNU-RM-Infantry/install/setup.bash"' \
       /ros_entrypoint.sh
-
-WORKDIR /
